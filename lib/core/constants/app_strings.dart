@@ -23,4 +23,5 @@ class AppStrings {
   static const String loading = 'Loading...';
   static const String somethingWentWrong = 'Something went wrong';
   static const String noHootsYet = 'No hoots yet. Be the first to hoot!';
+  static const String failedToPost = 'Failed to post';
 }

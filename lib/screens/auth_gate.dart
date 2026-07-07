@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:owlet/core/theme/app_colors.dart';
 import 'package:owlet/providers/auth_provider.dart';
 import 'package:owlet/screens/auth_screen.dart';
+import 'package:owlet/screens/feed_screen.dart';
 
 class AuthGate extends ConsumerWidget {
   const AuthGate({super.key});
@@ -13,12 +14,10 @@ class AuthGate extends ConsumerWidget {
 
     return authState.when(
       data: (user) {
-        if (user == null) return AuthScreen();
-
-        return Scaffold(
-          appBar: AppBar(title: const Text('Owlet Feed')),
-          body: const Center(child: Text('Logged in! Feed coming soon.')),
-        );
+        if (user == null) {
+          return const AuthScreen();
+        }
+        return const FeedScreen();
       },
       loading: () => const Scaffold(
         body: Center(
