@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:owlet/core/constants/app_strings.dart';
 import 'package:owlet/core/theme/app_theme.dart';
 import 'package:owlet/firebase_options.dart';
+import 'package:owlet/screens/auth_gate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +23,7 @@ class OwletApp extends StatelessWidget {
       title: AppStrings.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
-      home: Placeholder(),
+      home: AuthGate(),
     );
   }
 }
