@@ -63,15 +63,11 @@ class HootActions {
   HootActions(this.ref);
 
   Future<void> toggleLike(String hootId, bool isCurrentlyLiked) async {
-  final user = ref.read(authServiceProvider).currentUser;
-  if (user == null) return;
+    final user = ref.read(authServiceProvider).currentUser;
+    if (user == null) return;
 
-  try {
     await ref.read(hootServiceProvider).toggleLike(hootId, user.uid, isCurrentlyLiked);
-  } catch (e) {
-    print('LIKE ERROR: $e');  // geçici — hatayı görmek için
   }
-}
 
   Future<void> toggleRetweet(String hootId, bool isCurrentlyRetweeted) async {
     final user = ref.read(authServiceProvider).currentUser;
