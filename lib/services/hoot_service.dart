@@ -24,4 +24,33 @@ class HootService {
               .toList(),
         );
   }
+
+  // Like/unlike toggle
+  Future<void> toggleLike(String hootId, String userId, bool isCurrentlyLiked) async {
+    final docRef = _hoots.doc(hootId);
+    if (isCurrentlyLiked) {
+      await docRef.update({
+        'likedBy': FieldValue.arrayRemove([userId]),
+      });
+    } else {
+      await docRef.update({
+        'likedBy': FieldValue.arrayUnion([userId]),
+      });
+    }
+  }
+
+  // retweet add/remove toggle
+  Future<void> toggleRetweet(String hootId, String userId, bool isCurrentlyRetweeted) async {
+    final docRef = _hoots.doc(hootId);
+
+    if (isCurrentlyRetweeted) {
+      await docRef.update({
+        'retweetedBy': FieldValue.arrayRemove([userId]),
+      });
+    } else {
+      await docRef.update({
+        'retweetedBy': FieldValue.arrayUnion([userId]),
+      });
+    }
+  }
 }

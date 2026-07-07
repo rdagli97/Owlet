@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:owlet/core/constants/app_strings.dart';
@@ -42,10 +43,16 @@ class FeedScreen extends ConsumerWidget {
                 hoot: hoot,
                 currentUserId: currentUserId,
                 onLike: () {
-                  //
+                  ref.read(hootActionsProvider).toggleLike(
+                    hoot.id,
+                    hoot.isLikedBy(currentUserId),
+                  );
                 },
                 onRetweet: () {
-                  //
+                  ref.read(hootActionsProvider).toggleRetweet(
+                    hoot.id,
+                    hoot.isRetweetedBy(currentUserId),
+                  );
                 },
                 onReply: () {
                   //

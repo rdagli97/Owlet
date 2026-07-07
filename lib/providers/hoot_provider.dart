@@ -57,3 +57,30 @@ class HootComposer extends Notifier<HootComposerState> {
 
 final hootComposerProvider = 
     NotifierProvider<HootComposer, HootComposerState>(HootComposer.new);
+
+class HootActions {
+  final Ref ref;
+  HootActions(this.ref);
+
+  Future<void> toggleLike(String hootId, bool isCurrentlyLiked) async {
+  final user = ref.read(authServiceProvider).currentUser;
+  if (user == null) return;
+
+  try {
+    await ref.read(hootServiceProvider).toggleLike(hootId, user.uid, isCurrentlyLiked);
+  } catch (e) {
+    print('LIKE ERROR: $e');  // geçici — hatayı görmek için
+  }
+}
+
+  Future<void> toggleRetweet(String hootId, bool isCurrentlyRetweeted) async {
+    final user = ref.read(authServiceProvider).currentUser;
+    if (user == null) return;
+
+    await ref.read(hootServiceProvider).toggleRetweet(hootId, user.uid, isCurrentlyRetweeted);
+  }
+}
+
+final hootActionsProvider = Provider<HootActions>((ref) {
+  return HootActions(ref);
+},);

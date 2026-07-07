@@ -83,7 +83,7 @@ class HootCard extends StatelessWidget {
                       icon: isLiked? Icons.favorite : Icons.favorite_border,
                       count: hoot.likeCount,
                       color: isLiked ? AppColors.like : null,
-                      onTap: onReply,
+                      onTap: onLike,
                     ),
                   ],
                 ),
