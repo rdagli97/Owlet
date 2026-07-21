@@ -10,6 +10,7 @@ class HootCard extends StatelessWidget {
   final VoidCallback onLike;
   final VoidCallback onRetweet;
   final VoidCallback onReply;
+  final VoidCallback? onAuthorTap;
 
   const HootCard({
     super.key,
@@ -18,6 +19,7 @@ class HootCard extends StatelessWidget {
     required this.onLike,
     required this.onRetweet,
     required this.onReply,
+    this.onAuthorTap,
   });
 
   @override
@@ -36,7 +38,10 @@ class HootCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Avatar
-          _Avatar(email: hoot.authorEmail),
+          GestureDetector(
+            onTap: onAuthorTap,
+            child: _Avatar(email: hoot.authorEmail),
+          ),
           const SizedBox(width: AppSizes.md),
           // Content
           Expanded(

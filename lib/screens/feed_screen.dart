@@ -7,6 +7,7 @@ import 'package:owlet/providers/auth_provider.dart';
 import 'package:owlet/providers/hoot_provider.dart';
 import 'package:owlet/screens/compose_hoot_screen.dart';
 import 'package:owlet/screens/hoot_details_screen.dart';
+import 'package:owlet/screens/profile_screen.dart';
 import 'package:owlet/widgets/hoot_card.dart';
 
 class FeedScreen extends ConsumerWidget {
@@ -22,6 +23,22 @@ class FeedScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(AppStrings.appName),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.person_outline),
+            onPressed: () {
+              final user = ref.read(authServiceProvider).currentUser;
+              if (user == null) return;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ProfileScreen(
+                    userId: user.uid,
+                    userEmail: user.email ?? '',
+                  ),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () => ref.read(authServiceProvider).signOut(),
@@ -62,6 +79,15 @@ class FeedScreen extends ConsumerWidget {
                     ),
                   );
                 },
+                onAuthorTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ProfileScreen(
+                      userId: hoot.authorId,
+                      userEmail: hoot.authorEmail,
+                    ),
+                  ),
+                ),
               );
             },
           );

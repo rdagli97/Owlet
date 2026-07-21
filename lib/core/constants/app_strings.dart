@@ -12,6 +12,7 @@ class AppStrings {
   static const String password = 'Password';
   static const String noAccountSignUp = "No account? Sign up";
   static const String haveAccountLogin = 'Have an account? Log in';
+  static const String profile = 'Profile';
 
   // Hoot (tweet)
   static const String hoot = 'Hoot';
@@ -20,6 +21,7 @@ class AppStrings {
   static const String replies = 'Replies';
   static const String retweet = 'Retweet';
   static const String tweetYourReply = 'Hoot your reply';
+  static const String hoots = 'Hoots';
 
   // Genel durumlar
   static const String loading = 'Loading...';

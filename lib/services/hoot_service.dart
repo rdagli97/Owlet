@@ -54,6 +54,17 @@ class HootService {
     }
   }
 
+  // get hoots of spesified user
+  Stream<List<Hoot>> watchUserHoots(String userId) {
+    return _hoots
+        .where('authorId', isEqualTo: userId)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshots) => snapshots.docs
+              .map((doc) => Hoot.fromMap(doc.id, doc.data()))
+              .toList());
+  }
+
   /// *********************************** REPLY SECTION ******************************************
 
   // ref of hoot->replies subcollection
@@ -79,6 +90,9 @@ class HootService {
             .map((doc) => Hoot.fromMap(doc.id, doc.data()))
             .toList());
   }
+
+
+  /// *********************************** REPLY SECTION ******************************************
 
 
 

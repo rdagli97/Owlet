@@ -89,6 +89,12 @@ final hootActionsProvider = Provider<HootActions>((ref) {
   return HootActions(ref);
 });
 
+// provide spesified user's hoot
+final userHootsStreamProvider = 
+    StreamProvider.family<List<Hoot>, String>((ref, userId) {
+  return ref.watch(hootServiceProvider).watchUserHoots(userId);
+});
+
 /// ***************** REPLY SECTION **************
 
 final repliesStreamProvider = StreamProvider.family<List<Hoot>, String>((
@@ -125,3 +131,5 @@ class ReplyComposer {
 final replyComposerProvider = Provider<ReplyComposer>((ref) {
   return ReplyComposer(ref);
 });
+
+/// ***************** REPLY SECTION **************
