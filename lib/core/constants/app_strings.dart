@@ -17,7 +17,9 @@ class AppStrings {
   static const String hoot = 'Hoot';
   static const String whatsOnYourMind = "What's on your mind?";
   static const String reply = 'Reply';
+  static const String replies = 'Replies';
   static const String retweet = 'Retweet';
+  static const String tweetYourReply = 'Hoot your reply';
 
   // Genel durumlar
   static const String loading = 'Loading...';

@@ -49,14 +49,18 @@ class HootComposer extends Notifier<HootComposerState> {
       state = state.copyWith(isSubmitting: false);
       return true;
     } catch (e) {
-      state = state.copyWith(isSubmitting: false, errorMessage: AppStrings.failedToPost);
+      state = state.copyWith(
+        isSubmitting: false,
+        errorMessage: AppStrings.failedToPost,
+      );
       return false;
     }
   }
 }
 
-final hootComposerProvider = 
-    NotifierProvider<HootComposer, HootComposerState>(HootComposer.new);
+final hootComposerProvider = NotifierProvider<HootComposer, HootComposerState>(
+  HootComposer.new,
+);
 
 class HootActions {
   final Ref ref;
@@ -66,17 +70,58 @@ class HootActions {
     final user = ref.read(authServiceProvider).currentUser;
     if (user == null) return;
 
-    await ref.read(hootServiceProvider).toggleLike(hootId, user.uid, isCurrentlyLiked);
+    await ref
+        .read(hootServiceProvider)
+        .toggleLike(hootId, user.uid, isCurrentlyLiked);
   }
 
   Future<void> toggleRetweet(String hootId, bool isCurrentlyRetweeted) async {
     final user = ref.read(authServiceProvider).currentUser;
     if (user == null) return;
 
-    await ref.read(hootServiceProvider).toggleRetweet(hootId, user.uid, isCurrentlyRetweeted);
+    await ref
+        .read(hootServiceProvider)
+        .toggleRetweet(hootId, user.uid, isCurrentlyRetweeted);
   }
 }
 
 final hootActionsProvider = Provider<HootActions>((ref) {
   return HootActions(ref);
-},);
+});
+
+/// ***************** REPLY SECTION **************
+
+final repliesStreamProvider = StreamProvider.family<List<Hoot>, String>((
+  ref,
+  hootId,
+) {
+  return ref.watch(hootServiceProvider).watchReplies(hootId);
+});
+
+class ReplyComposer {
+  final Ref ref;
+  ReplyComposer(this.ref);
+
+  Future<bool> postReply(String hootId, String text) async {
+    final user = ref.read(authServiceProvider).currentUser;
+    if (user == null) return false;
+
+    try {
+      final reply = Hoot(
+        id: '',
+        text: text,
+        authorId: user.uid,
+        authorEmail: user.email ?? 'unknown',
+        createdAt: DateTime.now(),
+      );
+      await ref.read(hootServiceProvider).addReply(hootId, reply);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+}
+
+final replyComposerProvider = Provider<ReplyComposer>((ref) {
+  return ReplyComposer(ref);
+});

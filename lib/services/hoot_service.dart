@@ -53,4 +53,35 @@ class HootService {
       });
     }
   }
+
+  /// *********************************** REPLY SECTION ******************************************
+
+  // ref of hoot->replies subcollection
+  CollectionReference<Map<String, dynamic>> _replies(String hootId) =>
+    _hoots.doc(hootId).collection('replies');
+
+  // add a reply to a hoot
+  Future<void> addReply(String hootId, Hoot reply) async {
+    // add reply to subcollection
+    await _replies(hootId).add(reply.toMap());
+    // increase hoot reply count
+    await _hoots.doc(hootId).update({
+      'replyCount': FieldValue.increment(1), // yine length almak daha mantikli olmaz miydi?
+    });
+  }
+
+  // watch replies live
+  Stream<List<Hoot>> watchReplies(String hootId) {
+    return _replies(hootId)
+        .orderBy('createdAt',descending: false)
+        .snapshots()
+        .map((snapshots) => snapshots.docs
+            .map((doc) => Hoot.fromMap(doc.id, doc.data()))
+            .toList());
+  }
+
+
+
 }
+
+

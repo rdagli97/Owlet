@@ -6,6 +6,7 @@ import 'package:owlet/core/theme/app_text_styles.dart';
 import 'package:owlet/providers/auth_provider.dart';
 import 'package:owlet/providers/hoot_provider.dart';
 import 'package:owlet/screens/compose_hoot_screen.dart';
+import 'package:owlet/screens/hoot_details_screen.dart';
 import 'package:owlet/widgets/hoot_card.dart';
 
 class FeedScreen extends ConsumerWidget {
@@ -54,7 +55,12 @@ class FeedScreen extends ConsumerWidget {
                   );
                 },
                 onReply: () {
-                  //
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => HootDetailsScreen(hoot: hoot),
+                    ),
+                  );
                 },
               );
             },
